@@ -10,6 +10,10 @@ namespace WMEdgeML
     {
         static void Main(string[] args)
         {
+            //WMMLCLassLib.MLClass mlClass = new WMMLCLassLib.MLClass();
+            //mlClass.ScoreLoadedModel();
+
+            WMMLCLassLib.SimplePredict.Execute();
         }
     }
 }

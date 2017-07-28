@@ -5,16 +5,32 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMEdgeML", "WMEdgeML\WMEdgeML.csproj", "{359C93D0-FA17-4D78-A7B9-8A67258739E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMMLCLassLib", "WMMLCLassLib\WMMLCLassLib.csproj", "{57582735-1393-4FB9-8DE0-F7251A3FE6EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Debug|x64.ActiveCfg = Debug|x64
+		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Debug|x64.Build.0 = Debug|x64
 		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Release|x64.ActiveCfg = Release|x64
+		{359C93D0-FA17-4D78-A7B9-8A67258739E0}.Release|x64.Build.0 = Release|x64
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Debug|x64.ActiveCfg = Debug|x64
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Debug|x64.Build.0 = Debug|x64
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|x64.ActiveCfg = Release|x64
+		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
