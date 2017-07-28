@@ -18,7 +18,8 @@ namespace WMEdgeML
 
             //This is more complex
             //WMMLCLassLib.Criteo.SimplePredict();
-            WMMLCLassLib.Criteo2.SimplePredict();
+            //WMMLCLassLib.Criteo2.SimplePredict();
+            WMMLCLassLib.TrainFromMemory.Execute();
           
         }
     }
