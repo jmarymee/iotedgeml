@@ -39,8 +39,6 @@ namespace WMMLCLassLib
                 CatFeatures = new[] { "a", "bxx", "c03", "0xfd", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" }
             });
 
-
-
             // Output the results.
             Console.WriteLine(result.Score);
             Console.WriteLine(result.Probability);
