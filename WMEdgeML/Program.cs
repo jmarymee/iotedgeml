@@ -13,7 +13,12 @@ namespace WMEdgeML
             //WMMLCLassLib.MLClass mlClass = new WMMLCLassLib.MLClass();
             //mlClass.ScoreLoadedModel();
 
-            WMMLCLassLib.SimplePredict.Execute();
+            //Works for simple float arrays
+            //WMMLCLassLib.SimplePredict.Execute();
+
+            //This is more complex
+            WMMLCLassLib.Criteo.SimplePredict();
+          
         }
     }
 }
