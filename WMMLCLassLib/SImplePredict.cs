@@ -61,7 +61,7 @@ namespace WMMLCLassLib
 
             var args = new TrainCommand.Arguments();
             args.dataFile = @"C:\tools\TLC\Samples\Data\UCI\breast-cancer.txt";
-            args.trainer = new SubComponent<ITrainer, SignatureTrainer>("AP");
+            args.trainer = new SubComponent<ITrainer, SignatureTrainer>("LogisticRegression");
             args.outputModelFile = ModelFilePath;
 
             new TrainCommand((TrainCommand.Arguments)args, env).Run();
