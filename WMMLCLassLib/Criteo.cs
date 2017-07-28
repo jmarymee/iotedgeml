@@ -45,4 +45,45 @@ namespace WMMLCLassLib
         }
 
     }
+
+    public class Criteo2
+    {
+        private static string modelPath = @"C:\tools\TLC\Projects\Criteo\Models\criteo-ap.zip";
+
+        private class CriteoExample
+        {
+            public float[] NumFeatures;
+            public string[] CatFeatures;
+        }
+
+        public static void SimplePredict()
+        {
+            // Initialize the environment.
+            var host = new TlcEnvironment();
+
+            var example = new CriteoExample
+            {
+                NumFeatures = new[] { 1, 2, 3, 4, 5, 6, 7, 8, float.NaN, 10, 11, 12, 13 },
+                CatFeatures = new[] { "a", "bxx", "c03", "0xfd", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" }
+            };
+
+            // Create a schema definition.
+            var inputSchema = new SchemaDefinition {
+                new SchemaDefinition.Column {MemberName = "NumFeatures", ColumnType = new VectorType(NumberType.R4, example.NumFeatures.Length)},
+                new SchemaDefinition.Column {MemberName = "CatFeatures", ColumnType = new VectorType(TextType.Instance, example.CatFeatures.Length)},
+                };
+
+            // Load the pipeline and predictor from the model file.
+            var predictor = host.CreatePredictionEngine<CriteoExample, SimplePredictionEngine.Prediction>(
+                File.OpenRead(modelPath), inputSchemaDefinition: inputSchema);
+
+            // Produce prediction.
+            var result = predictor.Predict(example);
+
+            // Output the results.
+            Console.WriteLine(result.Score);
+            Console.WriteLine(result.Probability);
+        }
+
+    }
 }

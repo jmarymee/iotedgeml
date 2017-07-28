@@ -17,7 +17,8 @@ namespace WMEdgeML
             //WMMLCLassLib.SimplePredict.Execute();
 
             //This is more complex
-            WMMLCLassLib.Criteo.SimplePredict();
+            //WMMLCLassLib.Criteo.SimplePredict();
+            WMMLCLassLib.Criteo2.SimplePredict();
           
         }
     }
