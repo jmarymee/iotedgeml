@@ -213,6 +213,7 @@
   <ItemGroup>
     <Compile Include="Criteo.cs" />
     <Compile Include="LearnScoreWithTransforms.cs" />
+    <Compile Include="MLAnomolyGenerator.cs" />
     <Compile Include="MLClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SImplePredict.cs" />

@@ -19,7 +19,10 @@ namespace WMEdgeML
             //This is more complex
             //WMMLCLassLib.Criteo.SimplePredict();
             //WMMLCLassLib.Criteo2.SimplePredict();
-            WMMLCLassLib.TrainFromMemory.Execute();
+            //WMMLCLassLib.TrainFromMemory.Execute();
+
+            WMMLCLassLib.MLAnomolyGenerator a = new WMMLCLassLib.MLAnomolyGenerator();
+            var data = a.GenerateDeviceData(10, 1, 50);
           
         }
     }
