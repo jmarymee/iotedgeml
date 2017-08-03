@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMEdgeML", "WMEdgeML\WMEdge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMMLCLassLib", "WMMLCLassLib\WMMLCLassLib.csproj", "{57582735-1393-4FB9-8DE0-F7251A3FE6EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgeModule", "EdgeModule\EdgeModule.csproj", "{34AF93C3-EC50-43A3-8FE9-BF84323348D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|x64.ActiveCfg = Release|x64
 		{57582735-1393-4FB9-8DE0-F7251A3FE6EC}.Release|x64.Build.0 = Release|x64
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Debug|x64.Build.0 = Debug|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|x64.ActiveCfg = Release|Any CPU
+		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
