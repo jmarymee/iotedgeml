@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMMLCLassLib", "WMMLCLassLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgeModule", "EdgeModule\EdgeModule.csproj", "{34AF93C3-EC50-43A3-8FE9-BF84323348D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoreSpewModule", "ScoreSpewModule\ScoreSpewModule.csproj", "{C8532616-65E1-41AF-A3B5-94BBB64AC263}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|x64.ActiveCfg = Release|Any CPU
 		{34AF93C3-EC50-43A3-8FE9-BF84323348D5}.Release|x64.Build.0 = Release|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Debug|x64.Build.0 = Debug|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Release|x64.ActiveCfg = Release|Any CPU
+		{C8532616-65E1-41AF-A3B5-94BBB64AC263}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

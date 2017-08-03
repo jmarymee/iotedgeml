@@ -226,6 +226,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ScoreSpewModule\ScoreSpewModule.csproj">
+      <Project>{c8532616-65e1-41af-a3b5-94bbb64ac263}</Project>
+      <Name>ScoreSpewModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WMMLCLassLib\WMMLCLassLib.csproj">
       <Project>{57582735-1393-4fb9-8de0-f7251a3fe6ec}</Project>
       <Name>WMMLCLassLib</Name>

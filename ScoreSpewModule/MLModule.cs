@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EdgeModule
+namespace ScoreSpewModule
 {
     public class MLModule : IGatewayModule//, IGatewayModuleStart
     {
@@ -46,6 +46,7 @@ namespace EdgeModule
             if (received_message.Properties["source"] == "sensor")
             {
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
+                Console.WriteLine("I am in the ML Module");
                 Console.WriteLine(jsonString);
                 ScoreSpewData sd = JsonConvert.DeserializeObject<ScoreSpewData>(jsonString);
             }

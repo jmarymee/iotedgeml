@@ -1,0 +1,32 @@
+﻿{
+  "modules": [
+    {
+      "name": "score_spew_module",
+      "loader": {
+        "name": "dotnet",
+        "entrypoint": {
+          "assembly.name": "ScoreSpewModule",
+          "entry.type": "ScoreSpewModule.Spew"
+        }
+      },
+      "args": "module configuration"
+    },
+    {
+      "name": "edge_module",
+      "loader": {
+        "name": "dotnet",
+        "entrypoint": {
+          "assembly.name": "ScoreSpewModule",
+          "entry.type": "ScoreSpewModule.MLModule"
+        }
+      },
+      "args": "module configuration"
+    }
+  ],
+  "links": [
+    {
+      "source": "score_spew_module",
+      "sink": "edge_module"
+    }
+  ]
+}
