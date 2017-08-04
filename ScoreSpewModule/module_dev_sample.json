@@ -9,7 +9,7 @@
           "entry.type": "ScoreSpewModule.Spew"
         }
       },
-      "args": {"pathToTelemetry":".\telemetry.csv"}
+      "args": { "pathToTelemetry": "C:\\Users\\jmarymee\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\test1.csv" }
     },
     {
       "name": "edge_module",
@@ -20,7 +20,7 @@
           "entry.type": "ScoreSpewModule.MLModule"
         }
       },
-      "args": "null"
+      "args": { "pathToModel": "C:\\Users\\jmarymee\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\model.zip" }
     }
   ],
   "links": [

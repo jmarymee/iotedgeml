@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,6 +14,7 @@ namespace ScoreSpewModule
     {
         private Broker broker;
         private string configuration;
+        private string modelPath;
 
         private Thread oThread;
 
@@ -32,6 +34,20 @@ namespace ScoreSpewModule
 
             this.broker = broker;
             this.configuration = Encoding.UTF8.GetString(configuration);
+
+            try
+            {
+                dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+                modelPath = myConfig.pathToModel;
+                if (!File.Exists(modelPath))
+                {
+                    throw new FileNotFoundException("Model file does not exist");
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
 
         }
 
@@ -58,8 +74,8 @@ namespace ScoreSpewModule
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
                 //List<Double> predict = JsonConvert.DeserializeObject<List<double>>(jsonString);
                 float[] predict = JsonConvert.DeserializeObject<float[]>(jsonString);
-                string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
-                WMMLCLassLib.SimplePredict.Predict(pathToModel, predict);
+                //string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
+                WMMLCLassLib.SimplePredict.Predict(modelPath, predict);
             }
         }
 

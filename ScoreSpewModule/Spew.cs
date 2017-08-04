@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft;
 using Newtonsoft.Json;
+using System.IO;
 //using EdgeModule;
 
 namespace ScoreSpewModule
@@ -53,6 +54,7 @@ namespace ScoreSpewModule
             {
                 dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
                 string myPath = myConfig.pathToTelemetry;
+                var entries = GetTestScoreData(myPath);
             }
             catch (Exception exp)
             {
@@ -68,6 +70,13 @@ namespace ScoreSpewModule
             string configuration = "{\"pathToTelemetry\":\".\telemetry.csv\"}";
             dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(configuration);
             string myPath = myConfig.pathToTelemetry;
+
+            //string appPath = AppDomain.CurrentDomain.BaseDirectory + System.IO.Path.PathSeparator + "iotedgml";
+            var projectPath = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + System.IO.Path.DirectorySeparatorChar + "iotedgml";
+            //var projectPath2 = System.IO.Path.GetDirectoryName(
+            //    System.IO.Path.GetDirectoryName(
+            //        System.IO.Path.GetDirectoryName(
+            //            System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase))) 
 
             oThread = new Thread(new ThreadStart(this.threadBody));
             // Start the thread
@@ -120,6 +129,25 @@ namespace ScoreSpewModule
                 sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
                 jsonData = JsonConvert.SerializeObject(sd);
             }
+        }
+
+        public List<float[]> GetTestScoreData(string pathToDataFile)
+        {
+            if (!File.Exists(pathToDataFile)) { throw new FileNotFoundException("Test Data not found"); }
+            string line;
+            float[] vals = null;
+            List<float[]> Entries = new List<float[]>();
+
+            using (System.IO.StreamReader file = new StreamReader(pathToDataFile))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    vals = Array.ConvertAll(line.Split(','), float.Parse);
+                    Entries.Add(vals);
+                }
+            }
+
+            return Entries;
         }
     }
 }
