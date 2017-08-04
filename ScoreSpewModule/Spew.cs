@@ -31,17 +31,37 @@ namespace ScoreSpewModule
             public double sensor2 { get; set; }
         }
 
+        public class ScoreSpewConfig
+        {
+            [JsonProperty(PropertyName = "pathToTelemetry")]
+            public string pathToTelemetry { get; set; }
+        }
+
         public void Create(Broker broker, byte[] configuration)
         {
-
             this.broker = broker;
-            this.configuration = Encoding.UTF8.GetString(configuration);
-
+            this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
+            Console.WriteLine(this.configuration);
+            
+            try
+            {
+               dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+                string myPath = myConfig.pathToTelemetry;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            
         }
 
         public void Start()
         {
-            //mlm = new MLModule(); //used for tight binding test
+            ScoreSpewConfig sc = new ScoreSpewConfig() { pathToTelemetry = ".\telemetry.csv" };
+            string js = JsonConvert.SerializeObject(sc);
+            string configuration = "{\"pathToTelemetry\":\".\telemetry.csv\"}";
+            dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(configuration);
+            string myPath = myConfig.pathToTelemetry;
 
             oThread = new Thread(new ThreadStart(this.threadBody));
             // Start the thread

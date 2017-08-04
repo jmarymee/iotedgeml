@@ -9,7 +9,7 @@
           "entry.type": "ScoreSpewModule.Spew"
         }
       },
-      "args": "module configuration"
+      "args": {"pathToTelemetry":".\telemetry.csv"}
     },
     {
       "name": "edge_module",
@@ -20,7 +20,7 @@
           "entry.type": "ScoreSpewModule.MLModule"
         }
       },
-      "args": "module configuration"
+      "args": "null"
     }
   ],
   "links": [
