@@ -22,7 +22,7 @@ namespace ScoreSpewModule
 
         //private MLModule mlm;
 
-        public  class ScoreSpewData
+        public class ScoreSpewData
         {
             [JsonProperty(PropertyName = "sensor1")]
             public double sensor1 { get; set; }
@@ -37,22 +37,28 @@ namespace ScoreSpewModule
             public string pathToTelemetry { get; set; }
         }
 
+        [JsonArray]
+        public class PredictArray
+        {
+            List<Double> scoreData = new List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
+        }
+
         public void Create(Broker broker, byte[] configuration)
         {
             this.broker = broker;
             this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
             Console.WriteLine(this.configuration);
-            
+
             try
             {
-               dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+                dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
                 string myPath = myConfig.pathToTelemetry;
             }
             catch (Exception exp)
             {
                 Console.WriteLine(exp.Message);
             }
-            
+
         }
 
         public void Start()
@@ -92,16 +98,25 @@ namespace ScoreSpewModule
             {
                 Dictionary<string, string> thisIsMyProperty = new Dictionary<string, string>();
                 thisIsMyProperty.Add("source", "sensor");
-
                 Message messageToPublish = new Message(jsonData, thisIsMyProperty);
-                Console.WriteLine(jsonData);
-
+                //Console.WriteLine(jsonData);
                 this.broker.Publish(messageToPublish);
                 //Testing
-                Console.WriteLine("I am sending the message from Spew");
+                //Console.WriteLine("I am sending the message from Spew");
+
+                //This is for the ML predictor
+                //List<Double> scoreData = new List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
+                float[] scoreData = new float[] { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
+                PredictArray pa = new PredictArray();
+                string mlPredictString = JsonConvert.SerializeObject(scoreData);
+                Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
+                thisIsMyPropertyML.Add("source", "predict");
+                Message messageToPublishML = new Message(mlPredictString, thisIsMyPropertyML);
+                Console.WriteLine(mlPredictString);
+                this.broker.Publish(messageToPublishML);
 
                 //Publish a message every 5 seconds. 
-                Thread.Sleep(3000);
+                Thread.Sleep(10000);
                 sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
                 jsonData = JsonConvert.SerializeObject(sd);
             }

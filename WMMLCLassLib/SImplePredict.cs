@@ -23,6 +23,27 @@ namespace WMMLCLassLib
     /// </summary>
     public static class SimplePredict
     {
+
+        public static void Predict(string pathToModel, float[] scoredata)
+        {
+            if (!File.Exists(pathToModel)) { throw new Exception("Model file not found"); }
+            
+            using (var env = new TlcEnvironment())
+            {
+                // Load the prediction engine from the model file. 
+                using (var fs = File.OpenRead(pathToModel))
+                {
+                    var predictionEngine = env.CreateSimplePredictionEngine(fs, 9);
+
+                    // Get prediction
+                    var prediction = predictionEngine.Predict(scoredata);
+
+                    // Output results
+                    Console.WriteLine(prediction.Score);
+                    Console.WriteLine(prediction.Probability);
+                }
+            }
+        }
         public static void Execute()
         {
             // Initialize the API environment.
@@ -67,6 +88,6 @@ namespace WMMLCLassLib
             new TrainCommand((TrainCommand.Arguments)args, env).Run();
         }
 
-        private static string ModelFilePath { get { return @"C:\tools\TLC\Projects\model.zip"; } }
+        private static string ModelFilePath { get { return @".\model.zip"; } }
     }
 }

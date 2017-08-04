@@ -38,7 +38,10 @@ namespace ScoreSpewModule
         public void Destroy()
         {
             quitThread = true;
-            oThread.Join();
+            if (oThread != null)
+            {
+                oThread.Join();
+            }
         }
 
         public void Receive(Message received_message)
@@ -49,6 +52,14 @@ namespace ScoreSpewModule
                 Console.WriteLine("I am in the ML Module");
                 Console.WriteLine(jsonString);
                 ScoreSpewData sd = JsonConvert.DeserializeObject<ScoreSpewData>(jsonString);
+            }
+            if (received_message.Properties["source"] == "predict")
+            {
+                string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
+                //List<Double> predict = JsonConvert.DeserializeObject<List<double>>(jsonString);
+                float[] predict = JsonConvert.DeserializeObject<float[]>(jsonString);
+                string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
+                WMMLCLassLib.SimplePredict.Predict(pathToModel, predict);
             }
         }
 

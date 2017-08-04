@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.props" Condition="Exists('..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,20 +33,168 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bond, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.dll</HintPath>
+    </Reference>
+    <Reference Include="Bond.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.Attributes.dll</HintPath>
+    </Reference>
+    <Reference Include="Bond.IO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Bond.JSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.JSON.dll</HintPath>
+    </Reference>
+    <Reference Include="FastRankMerged, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30fbfef7dd3fec9a, processorArchitecture=MSIL">
+      <HintPath>..\packages\TLC.Training.3.6.65\lib\net40\FastRankMerged.dll</HintPath>
+    </Reference>
+    <Reference Include="jlib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f28e5858c0c08d87, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\jlib.dll</HintPath>
+    </Reference>
+    <Reference Include="LDACLI, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\LDACLI.dll</HintPath>
+    </Reference>
+    <Reference Include="LibSvmWrapper, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\LibSvmWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedBlingSigned, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\ManagedBlingSigned.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.IoT.Gateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.IoT.Gateway.Module.1.0.6\lib\net40\Microsoft.Azure.IoT.Gateway.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Api, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Core, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Ensemble, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\Microsoft.MachineLearning.Ensemble.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.EntryPoints, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.EntryPoints.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.FastTree, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\Microsoft.MachineLearning.FastTree.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Garage, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.Garage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Instrumentation, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.NeuralNetworks.3.6.65\lib\net40\Microsoft.MachineLearning.Instrumentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Internal.CpuMath, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.Internal.CpuMath.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Internal.Lexer, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.NeuralNetworks.3.6.65\lib\net40\Microsoft.MachineLearning.Internal.Lexer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Internal.MklMath, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.NeuralNetworks.3.6.65\lib\net40\Microsoft.MachineLearning.Internal.MklMath.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.KMeans, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\Microsoft.MachineLearning.KMeans.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.LDSVM, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\Microsoft.MachineLearning.LDSVM.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Learners, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.Learners.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.NeuralNetworks, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.NeuralNetworks.3.6.65\lib\net40\Microsoft.MachineLearning.NeuralNetworks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.NeuralNetworks.GpuCuda, Version=3.3.37.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.NeuralNetworks.3.6.65\lib\net40\Microsoft.MachineLearning.NeuralNetworks.GpuCuda.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.PCA, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\Microsoft.MachineLearning.PCA.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.Recommend, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\Microsoft.MachineLearning.Recommend.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.SequencePrediction, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\Microsoft.MachineLearning.SequencePrediction.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.SLib, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\Microsoft.MachineLearning.SLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.TextAnalytics, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\Microsoft.MachineLearning.TextAnalytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.TimeSeriesProcessing, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\Microsoft.MachineLearning.TimeSeriesProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.MachineLearning.VowpalWabbit, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\Microsoft.MachineLearning.VowpalWabbit.dll</HintPath>
+    </Reference>
+    <Reference Include="microsoft.naturallanguage.runtime.managed, Version=16.0.0.0, Culture=neutral, PublicKeyToken=94de0004b6e3fcc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\microsoft.naturallanguage.runtime.managed.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.PlatformBuilder.SqmBase, Version=3.6.65.0, Culture=neutral, PublicKeyToken=30fbfef7dd3fec9a, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.NeuralNetworks.3.6.65\lib\net40\Microsoft.PlatformBuilder.SqmBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Research.NeuralNetworks.Sse, Version=2.8.96.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\Microsoft.Research.NeuralNetworks.Sse.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.5.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="MingweiUtils, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5b01edb01fc25aee, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\MingweiUtils.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SLibMLCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\SLibMLCore.dll</HintPath>
+    </Reference>
+    <Reference Include="SLibv2Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\SLibv2Core.dll</HintPath>
+    </Reference>
+    <Reference Include="StratoLearner, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.Basic.3.6.65\lib\net40\StratoLearner.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Tlc.Instrumentation, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\Tlc.Instrumentation.dll</HintPath>
+    </Reference>
+    <Reference Include="TMSNlearnPrediction, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\TMSNlearnPrediction.dll</HintPath>
+    </Reference>
+    <Reference Include="TMSNStreams, Version=3.6.65.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
+      <HintPath>..\packages\TLC.Pipeline.3.6.65\lib\net40\TMSNStreams.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MLModule.cs" />
@@ -53,8 +202,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="module_dev_sample.json" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WMMLCLassLib\WMMLCLassLib.csproj">
+      <Project>{57582735-1393-4fb9-8de0-f7251a3fe6ec}</Project>
+      <Name>WMMLCLassLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.1.1.3\build\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.targets" Condition="Exists('..\packages\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.1.1.3\build\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.targets')" />
@@ -63,5 +219,16 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.1.1.3\build\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.1.1.3\build\Microsoft.Azure.Devices.Gateway.Native.Windows.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.props'))" />
+    <Error Condition="!Exists('..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets'))" />
+    <Error Condition="!Exists('..\packages\TLC.Pipeline.3.6.65\build\TLC.Pipeline.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TLC.Pipeline.3.6.65\build\TLC.Pipeline.targets'))" />
+    <Error Condition="!Exists('..\packages\TLC.Prediction.NeuralNetworks.3.6.65\build\TLC.Prediction.NeuralNetworks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TLC.Prediction.NeuralNetworks.3.6.65\build\TLC.Prediction.NeuralNetworks.targets'))" />
+    <Error Condition="!Exists('..\packages\TLC.Prediction.3.6.65\build\TLC.Prediction.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TLC.Prediction.3.6.65\build\TLC.Prediction.targets'))" />
+    <Error Condition="!Exists('..\packages\TLC.Training.3.6.65\build\TLC.Training.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TLC.Training.3.6.65\build\TLC.Training.targets'))" />
   </Target>
+  <Import Project="..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets" Condition="Exists('..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets')" />
+  <Import Project="..\packages\TLC.Pipeline.3.6.65\build\TLC.Pipeline.targets" Condition="Exists('..\packages\TLC.Pipeline.3.6.65\build\TLC.Pipeline.targets')" />
+  <Import Project="..\packages\TLC.Prediction.NeuralNetworks.3.6.65\build\TLC.Prediction.NeuralNetworks.targets" Condition="Exists('..\packages\TLC.Prediction.NeuralNetworks.3.6.65\build\TLC.Prediction.NeuralNetworks.targets')" />
+  <Import Project="..\packages\TLC.Prediction.3.6.65\build\TLC.Prediction.targets" Condition="Exists('..\packages\TLC.Prediction.3.6.65\build\TLC.Prediction.targets')" />
+  <Import Project="..\packages\TLC.Training.3.6.65\build\TLC.Training.targets" Condition="Exists('..\packages\TLC.Training.3.6.65\build\TLC.Training.targets')" />
 </Project>
