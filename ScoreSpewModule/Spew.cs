@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Newtonsoft;
 using Newtonsoft.Json;
 using System.IO;
-//using EdgeModule;
 
 namespace ScoreSpewModule
 {
@@ -21,28 +20,30 @@ namespace ScoreSpewModule
 
         private bool quitThread = false;
 
-        //private MLModule mlm;
+        private List<float[]> m_spewTestData;
 
-        public class ScoreSpewData
-        {
-            [JsonProperty(PropertyName = "sensor1")]
-            public double sensor1 { get; set; }
+        private string m_pathToTelemetry;
 
-            [JsonProperty(PropertyName = "sensor2")]
-            public double sensor2 { get; set; }
-        }
+        //public class ScoreSpewData
+        //{
+        //    [JsonProperty(PropertyName = "sensor1")]
+        //    public double sensor1 { get; set; }
 
-        public class ScoreSpewConfig
-        {
-            [JsonProperty(PropertyName = "pathToTelemetry")]
-            public string pathToTelemetry { get; set; }
-        }
+        //    [JsonProperty(PropertyName = "sensor2")]
+        //    public double sensor2 { get; set; }
+        //}
 
-        [JsonArray]
-        public class PredictArray
-        {
-            List<Double> scoreData = new List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
-        }
+        //public class ScoreSpewConfig
+        //{
+        //    [JsonProperty(PropertyName = "pathToTelemetry")]
+        //    public string pathToTelemetry { get; set; }
+        //}
+
+        //[JsonArray]
+        //public class PredictArray
+        //{
+        //    List<Double> scoreData = new List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
+        //}
 
         public void Create(Broker broker, byte[] configuration)
         {
@@ -53,8 +54,8 @@ namespace ScoreSpewModule
             try
             {
                 dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
-                string myPath = myConfig.pathToTelemetry;
-                var entries = GetTestScoreData(myPath);
+                m_pathToTelemetry = myConfig.pathToTelemetry;
+                //List<float[]> entries = GetTestScoreData(myPath);
             }
             catch (Exception exp)
             {
@@ -65,11 +66,11 @@ namespace ScoreSpewModule
 
         public void Start()
         {
-            ScoreSpewConfig sc = new ScoreSpewConfig() { pathToTelemetry = ".\telemetry.csv" };
-            string js = JsonConvert.SerializeObject(sc);
-            string configuration = "{\"pathToTelemetry\":\".\telemetry.csv\"}";
-            dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(configuration);
-            string myPath = myConfig.pathToTelemetry;
+            //ScoreSpewConfig sc = new ScoreSpewConfig() { pathToTelemetry = ".\telemetry.csv" };
+            //string js = JsonConvert.SerializeObject(sc);
+            //string configuration = "{\"pathToTelemetry\":\".\telemetry.csv\"}";
+            //dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(configuration);
+            //m_pathToTelemetry = myConfig.pathToTelemetry;
 
             //string appPath = AppDomain.CurrentDomain.BaseDirectory + System.IO.Path.PathSeparator + "iotedgml";
             var projectPath = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + System.IO.Path.DirectorySeparatorChar + "iotedgml";
@@ -100,40 +101,63 @@ namespace ScoreSpewModule
             //int n = r.Next();
             double d = r.NextDouble();
 
-            ScoreSpewData sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
-            string jsonData = JsonConvert.SerializeObject(sd);
+            //ScoreSpewData sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
+            //string jsonData = JsonConvert.SerializeObject(sd);
 
             while (!quitThread)
             {
-                Dictionary<string, string> thisIsMyProperty = new Dictionary<string, string>();
-                thisIsMyProperty.Add("source", "sensor");
-                Message messageToPublish = new Message(jsonData, thisIsMyProperty);
-                //Console.WriteLine(jsonData);
-                this.broker.Publish(messageToPublish);
-                //Testing
-                //Console.WriteLine("I am sending the message from Spew");
+                //Dictionary<string, string> thisIsMyProperty = new Dictionary<string, string>();
+                //thisIsMyProperty.Add("source", "sensor");
+                //Message messageToPublish = new Message(jsonData, thisIsMyProperty);
+                ////Console.WriteLine(jsonData);
+                //this.broker.Publish(messageToPublish);
 
                 //This is for the ML predictor
                 //List<Double> scoreData = new List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
-                float[] scoreData = new float[] { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
-                PredictArray pa = new PredictArray();
-                string mlPredictString = JsonConvert.SerializeObject(scoreData);
-                Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
-                thisIsMyPropertyML.Add("source", "predict");
-                Message messageToPublishML = new Message(mlPredictString, thisIsMyPropertyML);
-                Console.WriteLine(mlPredictString);
-                this.broker.Publish(messageToPublishML);
+                //float[] scoreData = new float[] { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
+                float[] scoreData = null; //Each iteration var
 
+                if (m_spewTestData == null || m_spewTestData.Count < 1)
+                {
+                    m_spewTestData = GetTestScoreData(m_pathToTelemetry);
+                }
+                else
+                {
+                    scoreData = m_spewTestData.FirstOrDefault<float[]>();
+                    string mlPredictString = JsonConvert.SerializeObject(scoreData);
+                    Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
+                    thisIsMyPropertyML.Add("source", "predict");
+                    Message messageToPublishML = new Message(mlPredictString, thisIsMyPropertyML);
+                    Console.WriteLine(mlPredictString);
+                    this.broker.Publish(messageToPublishML);
+                    m_spewTestData.Remove(scoreData);
+                }
                 //Publish a message every 5 seconds. 
-                Thread.Sleep(10000);
-                sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
-                jsonData = JsonConvert.SerializeObject(sd);
+                Thread.Sleep(5000);
+
+                //sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
+                //jsonData = JsonConvert.SerializeObject(sd);
             }
         }
 
+        /// <summary>
+        /// This method reads in a list of prediction values that will be published to the bus.
+        /// It will read the file into an array, delete the file and then feed one prediction per sleep interation until the array/list is at zero
+        /// Once that happens it will then look for another file to parse in. Wash, rinse, repeat...
+        /// </summary>
+        /// <param name="pathToDataFile"></param>
+        /// <returns></returns>
         public List<float[]> GetTestScoreData(string pathToDataFile)
         {
-            if (!File.Exists(pathToDataFile)) { throw new FileNotFoundException("Test Data not found"); }
+            if (!File.Exists(pathToDataFile)) //In this case we will return a List<float[]> with no entries and the spewer will spew nothing then sleep until the next check.
+            {
+                Console.WriteLine("No file found to spew!");
+                return new List<float[]>();
+            }
+            else
+            {
+                Console.WriteLine("Got us a file to spew!");
+            }
             string line;
             float[] vals = null;
             List<float[]> Entries = new List<float[]>();
@@ -146,6 +170,9 @@ namespace ScoreSpewModule
                     Entries.Add(vals);
                 }
             }
+
+            //Now cleanup the spew test file
+            File.Delete(pathToDataFile);
 
             return Entries;
         }
