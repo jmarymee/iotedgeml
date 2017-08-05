@@ -215,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Criteo.cs" />
+    <Compile Include="FailurePrediction.cs" />
     <Compile Include="LearnScoreWithTransforms.cs" />
     <Compile Include="MLAnomolyGenerator.cs" />
     <Compile Include="MLClass.cs" />

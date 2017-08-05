@@ -23,6 +23,7 @@ namespace ScoreSpewModule
         private List<float[]> m_spewTestData;
 
         private string m_pathToTelemetry;
+        private bool isIgnoreHeaders = false;
 
         //public class ScoreSpewData
         //{
@@ -55,7 +56,7 @@ namespace ScoreSpewModule
             {
                 dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
                 m_pathToTelemetry = myConfig.pathToTelemetry;
-                //List<float[]> entries = GetTestScoreData(myPath);
+                isIgnoreHeaders = myConfig.ignoreHeader;
             }
             catch (Exception exp)
             {
@@ -100,6 +101,7 @@ namespace ScoreSpewModule
             Random r = new Random();
             //int n = r.Next();
             double d = r.NextDouble();
+            int lineNum = 0;
 
             //ScoreSpewData sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
             //string jsonData = JsonConvert.SerializeObject(sd);
@@ -119,21 +121,24 @@ namespace ScoreSpewModule
 
                 if (m_spewTestData == null || m_spewTestData.Count < 1)
                 {
-                    m_spewTestData = GetTestScoreData(m_pathToTelemetry);
+                    m_spewTestData = GetTestScoreData(m_pathToTelemetry, isIgnoreHeaders);
+                    Console.WriteLine(String.Format("Skipping line {0}: Header line", lineNum));
+                    lineNum++;
                 }
                 else
                 {
+                    Console.WriteLine(String.Format("Scoring line {0}", lineNum)); lineNum++;
                     scoreData = m_spewTestData.FirstOrDefault<float[]>();
                     string mlPredictString = JsonConvert.SerializeObject(scoreData);
                     Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
                     thisIsMyPropertyML.Add("source", "predict");
                     Message messageToPublishML = new Message(mlPredictString, thisIsMyPropertyML);
-                    Console.WriteLine(mlPredictString);
+                    //Console.WriteLine(mlPredictString);
                     this.broker.Publish(messageToPublishML);
                     m_spewTestData.Remove(scoreData);
                 }
                 //Publish a message every 5 seconds. 
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
 
                 //sd = new ScoreSpewData() { sensor1 = r.NextDouble(), sensor2 = r.NextDouble() };
                 //jsonData = JsonConvert.SerializeObject(sd);
@@ -147,7 +152,7 @@ namespace ScoreSpewModule
         /// </summary>
         /// <param name="pathToDataFile"></param>
         /// <returns></returns>
-        public List<float[]> GetTestScoreData(string pathToDataFile)
+        public List<float[]> GetTestScoreData(string pathToDataFile, bool isIgnoreHeader)
         {
             if (!File.Exists(pathToDataFile)) //In this case we will return a List<float[]> with no entries and the spewer will spew nothing then sleep until the next check.
             {
@@ -166,13 +171,17 @@ namespace ScoreSpewModule
             {
                 while ((line = file.ReadLine()) != null)
                 {
-                    vals = Array.ConvertAll(line.Split(','), float.Parse);
-                    Entries.Add(vals);
+                    if (isIgnoreHeader) { isIgnoreHeader = false; } //Skip the first line
+                    else
+                    {
+                        vals = Array.ConvertAll(line.Split(','), float.Parse);
+                        Entries.Add(vals);
+                    }
                 }
             }
 
             //Now cleanup the spew test file
-            File.Delete(pathToDataFile);
+            //File.Delete(pathToDataFile);
 
             return Entries;
         }
