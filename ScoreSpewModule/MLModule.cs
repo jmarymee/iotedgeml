@@ -21,6 +21,7 @@ namespace ScoreSpewModule
         private Thread oThread;
 
         private bool quitThread = false;
+        private bool isLog = false;
 
         //public class ScoreSpewData
         //{
@@ -42,6 +43,11 @@ namespace ScoreSpewModule
                 dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
                 modelPath = myConfig.pathToModel;
                 failureThreshold = myConfig.failureThreshold;
+                string log = myConfig.log;
+                if (log.Equals("true"))
+                {
+                    isLog = true;
+                }
                 if (!File.Exists(modelPath))
                 {
                     throw new FileNotFoundException("Model file does not exist");
@@ -89,14 +95,14 @@ namespace ScoreSpewModule
                 //string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
                 //WMMLCLassLib.SimplePredict.Predict(modelPath, predict);
                 WMMLCLassLib.FailurePrediction.PredictionValues predictionValues = fp.Predict(predict);
-                Console.WriteLine(String.Format("Score: {0}, Threshold: {1}, Probabilities: {2}", predictionValues.Score, failureThreshold, predictionValues.Probability));
-                if (predictionValues.Score > failureThreshold)
+                if (isLog) Console.WriteLine(String.Format("Score: {0}, Threshold: {1}, Probabilities: {2}", predictionValues.Score, failureThreshold, predictionValues.Probability));
+                if (predictionValues.Score < failureThreshold)
                 {
-                    Console.WriteLine("FAILURE IMMINENT!");
+                    if (isLog) Console.WriteLine("FAILURE IMMINENT!");
                 }
                 else
                 {
-                    Console.WriteLine("Scored device within tolerances");
+                    if (isLog) Console.WriteLine("Scored device within tolerances");
                 }
             }
         }

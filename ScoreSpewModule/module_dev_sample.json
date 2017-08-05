@@ -11,7 +11,8 @@
       },
       "args": {
         "pathToTelemetry": "C:\\Users\\jmarymee\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\test.csv",
-        "ignoreHeader": "true"
+        "ignoreHeader": "true",
+        "log" :  "true"
       }
     },
     {
@@ -25,7 +26,8 @@
       },
       "args": {
         "pathToModel": "C:\\Users\\jmarymee\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\3.model.zip",
-        "failureThreshold": "0.50"
+        "failureThreshold": "-30.00",
+        "log" :  "true"
       }
     }
   ],

@@ -26,9 +26,6 @@ namespace WMMLCLassLib
 
             [VectorType(50)]
             public float[] Features;
-
-            [ColumnNameAttribute("Label")]
-            public float Label;
         }
 
         public FailurePrediction(string pathToModel)
@@ -38,7 +35,6 @@ namespace WMMLCLassLib
             tlcEnv = new TlcEnvironment();
             using (var fs = File.OpenRead(pathToModel))
             {
-                //spe = tlcEnv.CreateSimplePredictionEngine(fs, 51);
                 spe = tlcEnv.CreatePredictionEngine<FailurePredict, SimplePredictionEngine.Prediction>(fs);
             }
         }

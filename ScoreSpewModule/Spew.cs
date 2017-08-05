@@ -24,6 +24,7 @@ namespace ScoreSpewModule
 
         private string m_pathToTelemetry;
         private bool isIgnoreHeaders = false;
+        private bool isLog = false;
 
         //public class ScoreSpewData
         //{
@@ -50,13 +51,18 @@ namespace ScoreSpewModule
         {
             this.broker = broker;
             this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
-            Console.WriteLine(this.configuration);
+            if (isLog) Console.WriteLine(this.configuration);
 
             try
             {
                 dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
                 m_pathToTelemetry = myConfig.pathToTelemetry;
                 isIgnoreHeaders = myConfig.ignoreHeader;
+                string log = myConfig.log;
+                if (log.Equals("true"))
+                {
+                    isLog = true;
+                }
             }
             catch (Exception exp)
             {
@@ -122,12 +128,12 @@ namespace ScoreSpewModule
                 if (m_spewTestData == null || m_spewTestData.Count < 1)
                 {
                     m_spewTestData = GetTestScoreData(m_pathToTelemetry, isIgnoreHeaders);
-                    Console.WriteLine(String.Format("Skipping line {0}: Header line", lineNum));
+                    if (isLog) Console.WriteLine(String.Format("Skipping line {0}: Header line", lineNum));
                     lineNum++;
                 }
                 else
                 {
-                    Console.WriteLine(String.Format("Scoring line {0}", lineNum)); lineNum++;
+                    if (isLog) Console.WriteLine(String.Format("Scoring line {0}", lineNum)); lineNum++;
                     scoreData = m_spewTestData.FirstOrDefault<float[]>();
                     string mlPredictString = JsonConvert.SerializeObject(scoreData);
                     Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
@@ -156,12 +162,12 @@ namespace ScoreSpewModule
         {
             if (!File.Exists(pathToDataFile)) //In this case we will return a List<float[]> with no entries and the spewer will spew nothing then sleep until the next check.
             {
-                Console.WriteLine("No file found to spew!");
+                if (isLog) Console.WriteLine("No file found to spew!");
                 return new List<float[]>();
             }
             else
             {
-                Console.WriteLine("Got us a file to spew!");
+                if (isLog) Console.WriteLine("Got us a file to spew!");
             }
             string line;
             float[] vals = null;
