@@ -200,8 +200,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DashboardModule.cs" />
     <Compile Include="MLModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spew.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WMMLCLassLib\WMMLCLassLib.csproj">
@@ -211,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="module_dev_sample.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

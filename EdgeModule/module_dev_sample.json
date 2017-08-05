@@ -1,0 +1,58 @@
+﻿{
+  "modules": [
+    {
+      "name": "score_spew_module",
+      "loader": {
+        "name": "dotnet",
+        "entrypoint": {
+          "assembly.name": "EdgeModule",
+          "entry.type": "EdgeModule.Spew"
+        }
+      },
+      "args": {
+        "pathToTelemetry": "C:\\Users\\jmarymee\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\test.csv",
+        "ignoreHeader": "true",
+        "spewtiming": "2000",
+        "log": "true"
+      }
+    },
+    {
+      "name": "edge_module",
+      "loader": {
+        "name": "dotnet",
+        "entrypoint": {
+          "assembly.name": "EdgeModule",
+          "entry.type": "EdgeModule.MLModule"
+        }
+      },
+      "args": {
+        "pathToModel": "C:\\Users\\jmarymee\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\3.model.zip",
+        "failureThreshold": "-30.00",
+        "log": "true"
+      }
+    },
+    {
+      "name": "dashboard_module",
+      "loader": {
+        "name": "dotnet",
+        "entrypoint": {
+          "assembly.name": "EdgeModule",
+          "entry.type": "EdgeModule.DashboardModule"
+        }
+      },
+      "args": {
+        "log": "true"
+      }
+    }
+  ],
+  "links": [
+    {
+      "source": "score_spew_module",
+      "sink": "edge_module"
+    },
+    {
+      "source": "edge_module",
+      "sink": "dashboard_module"
+    }
+  ]
+}
