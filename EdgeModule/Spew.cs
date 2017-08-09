@@ -99,7 +99,8 @@ namespace EdgeModule
         public void Destroy()
         {
             quitThread = true;
-            oThread.Join();
+            if (oThread !=null)
+                oThread.Join();
         }
 
         public void Receive(Message received_message)

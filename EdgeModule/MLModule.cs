@@ -65,6 +65,16 @@ namespace EdgeModule
                 Console.WriteLine(exp.Message);
             }
 
+            //Attempt assembly load
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+        }
+
+        private System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Console.WriteLine("CANNOT LOAD!");
+            throw new NotImplementedException();
         }
 
         public void Destroy()
