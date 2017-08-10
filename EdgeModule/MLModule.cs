@@ -110,7 +110,7 @@ namespace EdgeModule
         public bool PublishAnomoly(WMMLCLassLib.FailurePrediction.PredictionValues pv)
         {
             Dictionary<string, string> thisIsMyProperty = new Dictionary<string, string>();
-            thisIsMyProperty.Add("source", "predictionmodule");
+            thisIsMyProperty.Add("name", "predictmodule");
 
             FailureNotice fn = new FailureNotice() { deviceID = 1, failScore = pv.Score, probability = pv.Probability };
             string message = rUtils.serializeFailure(fn); // JsonConvert.SerializeObject(fn);

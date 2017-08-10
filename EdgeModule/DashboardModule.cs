@@ -45,7 +45,7 @@ namespace EdgeModule
 
         public void Receive(Message received_message)
         {
-            if (received_message.Properties["source"] == "predictionmodule")
+            if (received_message.Properties["name"] == "predictmodule")
             {
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
                 dynamic myConfig = rUtils.JsonDeserializeFailure(jsonString); //Newtonsoft.Json.Linq.JObject.Parse(jsonString);
