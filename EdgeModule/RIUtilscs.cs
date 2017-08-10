@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Configuration;
 
 
 namespace EdgeModule
@@ -21,11 +22,40 @@ namespace EdgeModule
         MethodInfo deserialize;
         MethodInfo serialize;
 
-        public RIUtilscs() { } //no arg
+        private string assemblyPath;
 
-        public RIUtilscs(string assemblyName)
+        string GetAppSetting(Configuration config, string key)
         {
-            InitJSONLateBinding(assemblyName);
+            KeyValueConfigurationElement element = config.AppSettings.Settings[key];
+            if (element != null)
+            {
+                string value = element.Value;
+                if (!string.IsNullOrEmpty(value))
+                    return value;
+            }
+            return string.Empty;
+        }
+
+        public RIUtilscs()
+        {
+            Configuration config = null;
+            string exeConfigPath = this.GetType().Assembly.Location;
+            try
+            {
+                config = ConfigurationManager.OpenExeConfiguration(exeConfigPath);
+            }
+            catch (Exception ex)
+            {
+                //handle errror here.. means DLL has no sattelite configuration file.
+            }
+
+            if (config != null)
+            {
+                string assemblyPath = GetAppSetting(config, "newtonassembly");
+                //assemblyPath = ConfigurationManager.AppSettings["newtonassembly"];
+                InitJSONLateBinding(assemblyPath);
+            }
+
         }
 
         public dynamic GetConfigObject(string jsonConfigString)

@@ -21,7 +21,7 @@ namespace EdgeModule
             this.broker = broker;
             this.configuration = Encoding.UTF8.GetString(configuration);
 
-            rUtils = new RIUtilscs(@"C:\tools\Newton\Newtonsoft.Json.dll");
+            rUtils = new RIUtilscs(); // "C:\tools\Newton\Newtonsoft.Json.dll");
 
             try
             {

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Configuration;
 
 namespace EdgeModule
 {
@@ -55,7 +56,7 @@ namespace EdgeModule
             this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
             if (isLog) Console.WriteLine(this.configuration);
 
-            rUtils = new RIUtilscs(@"C:\tools\Newton\Newtonsoft.Json.dll");
+            rUtils = new RIUtilscs();// @"C:\tools\Newton\Newtonsoft.Json.dll");
 
             try
             {
