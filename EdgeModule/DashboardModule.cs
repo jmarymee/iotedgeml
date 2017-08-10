@@ -48,7 +48,7 @@ namespace EdgeModule
             if (received_message.Properties["source"] == "predictionmodule")
             {
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
-                FailureNotice myConfig = rUtils.JsonDeserializeFailure(jsonString); //Newtonsoft.Json.Linq.JObject.Parse(jsonString);
+                dynamic myConfig = rUtils.JsonDeserializeFailure(jsonString); //Newtonsoft.Json.Linq.JObject.Parse(jsonString);
 
                 if (isLog) Console.WriteLine(String.Format("Failing device ID: {0} with a Score of {1} and a Probability of {2}", myConfig.deviceID, myConfig.failScore, myConfig.probability));
             }

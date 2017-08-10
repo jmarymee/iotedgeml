@@ -43,12 +43,12 @@ namespace EdgeModule
             return data;
         }
 
-        public FailureNotice JsonDeserializeFailure(string jsonString)
+        public dynamic JsonDeserializeFailure(string jsonString)
         {
             Type failType = typeof(FailureNotice);
             object o = deserialize.Invoke(null, new object[] { jsonString, failType });
 
-            return (FailureNotice)o;
+            return (dynamic)o;
         }
 
         public string serializeFloat(float[] data)
