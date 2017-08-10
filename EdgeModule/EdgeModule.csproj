@@ -162,10 +162,6 @@
     <Reference Include="MingweiUtils, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5b01edb01fc25aee, processorArchitecture=AMD64">
       <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\MingweiUtils.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SLibMLCore, Version=0.0.0.0, Culture=neutral, PublicKeyToken=d353f9ba84f0e281, processorArchitecture=AMD64">
       <HintPath>..\packages\TLC.Prediction.3.6.65\lib\net40\SLibMLCore.dll</HintPath>
     </Reference>
@@ -213,7 +209,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="module_dev_sample.json" />
     <None Include="packages.config" />
   </ItemGroup>

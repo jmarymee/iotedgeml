@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft;
-using Newtonsoft.Json;
+//using Newtonsoft;
+//using Newtonsoft.Json;
 using System.IO;
 
 namespace EdgeModule
@@ -50,29 +50,29 @@ namespace EdgeModule
 
         public void Create(Broker broker, byte[] configuration)
         {
-            this.broker = broker;
-            this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
-            if (isLog) Console.WriteLine(this.configuration);
+            //this.broker = broker;
+            //this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
+            //if (isLog) Console.WriteLine(this.configuration);
 
-            try
-            {
-                dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
-                m_pathToTelemetry = myConfig.pathToTelemetry;
-                isIgnoreHeaders = myConfig.ignoreHeader;
-                string log = myConfig.log;
-                if (log.Equals("true"))
-                {
-                    isLog = true;
-                }
+            //try
+            //{
+            //    dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+            //    m_pathToTelemetry = myConfig.pathToTelemetry;
+            //    isIgnoreHeaders = myConfig.ignoreHeader;
+            //    string log = myConfig.log;
+            //    if (log.Equals("true"))
+            //    {
+            //        isLog = true;
+            //    }
 
-                //Spew timing
-                string st = myConfig.spewtiming;
-                if (!int.TryParse(st, out spewTiming)) { spewTiming = 5000; }
-            }
-            catch (Exception exp)
-            {
-                Console.WriteLine(exp.Message);
-            }
+            //    //Spew timing
+            //    string st = myConfig.spewtiming;
+            //    if (!int.TryParse(st, out spewTiming)) { spewTiming = 5000; }
+            //}
+            //catch (Exception exp)
+            //{
+            //    Console.WriteLine(exp.Message);
+            //}
 
         }
 
@@ -141,7 +141,7 @@ namespace EdgeModule
                 {
                     if (isLog) Console.WriteLine(String.Format("Scoring line {0}", lineNum)); lineNum++;
                     scoreData = m_spewTestData.FirstOrDefault<float[]>();
-                    string mlPredictString = JsonConvert.SerializeObject(scoreData);
+                    string mlPredictString = ""; // JsonConvert.SerializeObject(scoreData);
                     Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
                     thisIsMyPropertyML.Add("source", "predict");
                     Message messageToPublishML = new Message(mlPredictString, thisIsMyPropertyML);

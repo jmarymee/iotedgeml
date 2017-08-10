@@ -1,9 +1,10 @@
 ﻿using Microsoft.Azure.IoT.Gateway;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,13 @@ namespace EdgeModule
         private WMMLCLassLib.FailurePrediction fp;
         private float failureThreshold = 0.0f;
 
+        //used for late binding and type reflection of the Newtonsoft library
+        private Assembly JsonAssembly;
+        private Type JsonType;
+        private Object JsonObject;
+        private MethodInfo[] JsonStaticMethods;
+        private MethodInfo jParseMethod;
+
         private Thread oThread;
 
         private bool quitThread = false;
@@ -25,14 +33,22 @@ namespace EdgeModule
 
         public class FailureNotice
         {
-            [JsonProperty(PropertyName = "deviceid")]
+            //[JsonProperty(PropertyName = "deviceid")]
             public int deviceID { get; set; }
 
-            [JsonProperty(PropertyName = "failscore")]
+            //[JsonProperty(PropertyName = "failscore")]
             public double failScore { get; set; }
 
-            [JsonProperty(PropertyName = "probability")]
+            //[JsonProperty(PropertyName = "probability")]
             public double probability { get; set; }
+        }
+
+        private void JsonConvert()
+        {
+            string testData = "";
+            Type jsonConvertType = JsonAssembly.GetType("Newtonsoft.Json.JsonConvert");
+            MethodInfo[] methods = jsonConvertType.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            MethodInfo deserialize = methods[35];
         }
 
         public void Create(Broker broker, byte[] configuration)
@@ -41,9 +57,19 @@ namespace EdgeModule
             this.broker = broker;
             this.configuration = Encoding.UTF8.GetString(configuration);
 
+            JsonAssembly = Assembly.LoadFile(@"C:\tools\Newton\Newtonsoft.Json.dll");
+            JsonType = JsonAssembly.GetType("Newtonsoft.Json.Linq.JObject");
+            JsonObject = Activator.CreateInstance(JsonType);
+            JsonStaticMethods = JsonType.GetMethods(BindingFlags.Static | BindingFlags.Public);
+            jParseMethod = JsonStaticMethods[4];
+
+            //test
+            JsonConvert();
+
             try
             {
-                dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+                //dynamic myConfig = null; // Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+                dynamic myConfig = jParseMethod.Invoke(null, new object[] { this.configuration });
                 modelPath = myConfig.pathToModel;
                 failureThreshold = myConfig.failureThreshold;
                 string log = myConfig.log;
@@ -65,16 +91,6 @@ namespace EdgeModule
                 Console.WriteLine(exp.Message);
             }
 
-            //Attempt assembly load
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
-        }
-
-        private System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            Console.WriteLine("CANNOT LOAD!");
-            throw new NotImplementedException();
         }
 
         public void Destroy()
@@ -104,7 +120,9 @@ namespace EdgeModule
                 }
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
                 //List<Double> predict = JsonConvert.DeserializeObject<List<double>>(jsonString);
-                float[] predict = JsonConvert.DeserializeObject<float[]>(jsonString);
+
+                float[] predict = new float[] { 0.0f };// = JsonConvert.DeserializeObject<float[]>(jsonString);
+
                 //string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
                 //WMMLCLassLib.SimplePredict.Predict(modelPath, predict);
                 WMMLCLassLib.FailurePrediction.PredictionValues predictionValues = fp.Predict(predict);
@@ -127,7 +145,7 @@ namespace EdgeModule
             thisIsMyProperty.Add("source", "predictionmodule");
 
             FailureNotice fn = new FailureNotice() { deviceID = 1, failScore = pv.Score, probability = pv.Probability };
-            string message = JsonConvert.SerializeObject(fn);
+            string message = "";// JsonConvert.SerializeObject(fn);
 
             Message messageToPublish = new Message(message, thisIsMyProperty);
 
