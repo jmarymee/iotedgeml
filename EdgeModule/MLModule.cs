@@ -43,12 +43,20 @@ namespace EdgeModule
             public double probability { get; set; }
         }
 
-        private void JsonConvert()
+        private float[] JsonDeserializeFloatArray(string jsonString)
         {
-            string testData = "";
+            //string testData = "[0.0,-3.0645,0.0,0.0,-0.0115,0.0113,134.4408,0.0056,23.0645,6.67,2.068,0.0,0.8307,8.2061,28.3907,44.2516,4.4816,0.0,284.362,12.3808,2.0839,0.0014,3.045,1.7977,0.0174,0.0,5.8703,-5711.75,76.6,15.76,0.0,0.5883,0.0433,0.2424,9.7,3.205,0.0075,0.6623,531.9873,2.5228,0.1727,6.0474,11.7201,3.4219,0.1244,623.3645,3.137,86.7514,2.38,0.0471,0.42]";
+            //if (String.IsNullOrEmpty(jsonString)) { jsonString = testData; }
+
             Type jsonConvertType = JsonAssembly.GetType("Newtonsoft.Json.JsonConvert");
             MethodInfo[] methods = jsonConvertType.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            MethodInfo deserialize = methods[35];
+            MethodInfo deserialize = methods[37];
+
+            Type listType = typeof(float[]);
+
+            float[] data = (float[])deserialize.Invoke(null, new object[] { jsonString, listType });
+
+            return data;
         }
 
         public void Create(Broker broker, byte[] configuration)
@@ -64,7 +72,7 @@ namespace EdgeModule
             jParseMethod = JsonStaticMethods[4];
 
             //test
-            JsonConvert();
+            //JsonDeserializeFloatArray(null);
 
             try
             {
@@ -121,7 +129,7 @@ namespace EdgeModule
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
                 //List<Double> predict = JsonConvert.DeserializeObject<List<double>>(jsonString);
 
-                float[] predict = new float[] { 0.0f };// = JsonConvert.DeserializeObject<float[]>(jsonString);
+                float[] predict = JsonDeserializeFloatArray(jsonString); // = JsonConvert.DeserializeObject<float[]>(jsonString);
 
                 //string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
                 //WMMLCLassLib.SimplePredict.Predict(modelPath, predict);

@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-//using Newtonsoft;
-//using Newtonsoft.Json;
 using System.IO;
+using System.Reflection;
 
 namespace EdgeModule
 {
@@ -15,6 +14,17 @@ namespace EdgeModule
     {
         private Broker broker;
         private string configuration;
+
+        //used for late binding and type reflection of the Newtonsoft library
+        private Assembly JsonAssembly;
+        private Type JsonType;
+        private Object JsonObject;
+        private MethodInfo[] JsonStaticMethods;
+        private MethodInfo jParseMethod;
+        Type jsonConvertType;
+        MethodInfo[] methods;
+        MethodInfo deserialize;
+        MethodInfo serialize;
 
         private Thread oThread;
 
@@ -45,34 +55,59 @@ namespace EdgeModule
         //[JsonArray]
         //public class PredictArray
         //{
-        //    List<Double> scoreData = new List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
+        //    List<Double> scoreData = new  List<double>() { 0, 1, 2, 3, 4, 9, 0, 5, 2 };
         //}
+
+        private dynamic GetConfigObject(string jsonConfigString)
+        {
+            dynamic myConfig = jParseMethod.Invoke(null, new object[] { jsonConfigString });
+            return myConfig;
+        }
+
+        private void InitJSONLateBinding()
+        {
+            //Loads the assembly
+            JsonAssembly = Assembly.LoadFile(@"C:\tools\Newton\Newtonsoft.Json.dll");
+
+            JsonType = JsonAssembly.GetType("Newtonsoft.Json.Linq.JObject");
+            JsonObject = Activator.CreateInstance(JsonType);
+            JsonStaticMethods = JsonType.GetMethods(BindingFlags.Static | BindingFlags.Public);
+            jParseMethod = JsonStaticMethods[4];
+
+            jsonConvertType = JsonAssembly.GetType("Newtonsoft.Json.JsonConvert");
+            methods = jsonConvertType.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            deserialize = methods[37];
+
+            serialize = methods[27];
+        }
 
         public void Create(Broker broker, byte[] configuration)
         {
-            //this.broker = broker;
-            //this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
-            //if (isLog) Console.WriteLine(this.configuration);
+            this.broker = broker;
+            this.configuration = Encoding.UTF8.GetString(configuration, 0, configuration.Length);
+            if (isLog) Console.WriteLine(this.configuration);
 
-            //try
-            //{
-            //    dynamic myConfig = Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
-            //    m_pathToTelemetry = myConfig.pathToTelemetry;
-            //    isIgnoreHeaders = myConfig.ignoreHeader;
-            //    string log = myConfig.log;
-            //    if (log.Equals("true"))
-            //    {
-            //        isLog = true;
-            //    }
+            InitJSONLateBinding();
 
-            //    //Spew timing
-            //    string st = myConfig.spewtiming;
-            //    if (!int.TryParse(st, out spewTiming)) { spewTiming = 5000; }
-            //}
-            //catch (Exception exp)
-            //{
-            //    Console.WriteLine(exp.Message);
-            //}
+            try
+            {
+                dynamic myConfig = GetConfigObject(this.configuration); //Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
+                m_pathToTelemetry = myConfig.pathToTelemetry;
+                isIgnoreHeaders = myConfig.ignoreHeader;
+                string log = myConfig.log;
+                if (log.Equals("true"))
+                {
+                    isLog = true;
+                }
+
+                //Spew timing
+                string st = myConfig.spewtiming;
+                if (!int.TryParse(st, out spewTiming)) { spewTiming = 5000; }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
 
         }
 
@@ -108,6 +143,11 @@ namespace EdgeModule
             //Just Ignore the Message. Sensor doesn't need to print.
         }
 
+        private string SerializeData(float[] data)
+        {
+            return null;
+        }
+
         public void threadBody()
         {
             Random r = new Random();
@@ -141,7 +181,7 @@ namespace EdgeModule
                 {
                     if (isLog) Console.WriteLine(String.Format("Scoring line {0}", lineNum)); lineNum++;
                     scoreData = m_spewTestData.FirstOrDefault<float[]>();
-                    string mlPredictString = ""; // JsonConvert.SerializeObject(scoreData);
+                    string mlPredictString = (string)serialize.Invoke(null, new object[] { scoreData }); ; // JsonConvert.SerializeObject(scoreData);
                     Dictionary<string, string> thisIsMyPropertyML = new Dictionary<string, string>();
                     thisIsMyPropertyML.Add("source", "predict");
                     Message messageToPublishML = new Message(mlPredictString, thisIsMyPropertyML);
