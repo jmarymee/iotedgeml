@@ -19,45 +19,12 @@ namespace EdgeModule
         private WMMLCLassLib.FailurePrediction fp;
         private float failureThreshold = 0.0f;
 
-        //used for late binding and type reflection of the Newtonsoft library
-        private Assembly JsonAssembly;
-        private Type JsonType;
-        private Object JsonObject;
-        private MethodInfo[] JsonStaticMethods;
-        private MethodInfo jParseMethod;
+        private RIUtilscs rUtils;
 
         private Thread oThread;
 
         private bool quitThread = false;
         private bool isLog = false;
-
-        public class FailureNotice
-        {
-            //[JsonProperty(PropertyName = "deviceid")]
-            public int deviceID { get; set; }
-
-            //[JsonProperty(PropertyName = "failscore")]
-            public double failScore { get; set; }
-
-            //[JsonProperty(PropertyName = "probability")]
-            public double probability { get; set; }
-        }
-
-        private float[] JsonDeserializeFloatArray(string jsonString)
-        {
-            //string testData = "[0.0,-3.0645,0.0,0.0,-0.0115,0.0113,134.4408,0.0056,23.0645,6.67,2.068,0.0,0.8307,8.2061,28.3907,44.2516,4.4816,0.0,284.362,12.3808,2.0839,0.0014,3.045,1.7977,0.0174,0.0,5.8703,-5711.75,76.6,15.76,0.0,0.5883,0.0433,0.2424,9.7,3.205,0.0075,0.6623,531.9873,2.5228,0.1727,6.0474,11.7201,3.4219,0.1244,623.3645,3.137,86.7514,2.38,0.0471,0.42]";
-            //if (String.IsNullOrEmpty(jsonString)) { jsonString = testData; }
-
-            Type jsonConvertType = JsonAssembly.GetType("Newtonsoft.Json.JsonConvert");
-            MethodInfo[] methods = jsonConvertType.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            MethodInfo deserialize = methods[37];
-
-            Type listType = typeof(float[]);
-
-            float[] data = (float[])deserialize.Invoke(null, new object[] { jsonString, listType });
-
-            return data;
-        }
 
         public void Create(Broker broker, byte[] configuration)
         {
@@ -65,19 +32,12 @@ namespace EdgeModule
             this.broker = broker;
             this.configuration = Encoding.UTF8.GetString(configuration);
 
-            JsonAssembly = Assembly.LoadFile(@"C:\tools\Newton\Newtonsoft.Json.dll");
-            JsonType = JsonAssembly.GetType("Newtonsoft.Json.Linq.JObject");
-            JsonObject = Activator.CreateInstance(JsonType);
-            JsonStaticMethods = JsonType.GetMethods(BindingFlags.Static | BindingFlags.Public);
-            jParseMethod = JsonStaticMethods[4];
-
-            //test
-            //JsonDeserializeFloatArray(null);
+            rUtils = new RIUtilscs(@"C:\tools\Newton\Newtonsoft.Json.dll");
 
             try
             {
                 //dynamic myConfig = null; // Newtonsoft.Json.Linq.JObject.Parse(this.configuration);
-                dynamic myConfig = jParseMethod.Invoke(null, new object[] { this.configuration });
+                dynamic myConfig = rUtils.GetConfigObject(this.configuration);
                 modelPath = myConfig.pathToModel;
                 failureThreshold = myConfig.failureThreshold;
                 string log = myConfig.log;
@@ -129,7 +89,7 @@ namespace EdgeModule
                 string jsonString = Encoding.UTF8.GetString(received_message.Content, 0, received_message.Content.Length);
                 //List<Double> predict = JsonConvert.DeserializeObject<List<double>>(jsonString);
 
-                float[] predict = JsonDeserializeFloatArray(jsonString); // = JsonConvert.DeserializeObject<float[]>(jsonString);
+                float[] predict = rUtils.JsonDeserializeFloatArray(jsonString); // = JsonConvert.DeserializeObject<float[]>(jsonString);
 
                 //string pathToModel = @"C:\Users\jmarymee\Documents\Visual Studio 2017\Projects\iotedgeml\ScoreSpewModule\model.zip";
                 //WMMLCLassLib.SimplePredict.Predict(modelPath, predict);
@@ -153,7 +113,7 @@ namespace EdgeModule
             thisIsMyProperty.Add("source", "predictionmodule");
 
             FailureNotice fn = new FailureNotice() { deviceID = 1, failScore = pv.Score, probability = pv.Probability };
-            string message = "";// JsonConvert.SerializeObject(fn);
+            string message = rUtils.serializeFailure(fn); // JsonConvert.SerializeObject(fn);
 
             Message messageToPublish = new Message(message, thisIsMyProperty);
 
