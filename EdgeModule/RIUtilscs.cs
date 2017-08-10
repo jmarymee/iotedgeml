@@ -102,13 +102,16 @@ namespace EdgeModule
             JsonType = JsonAssembly.GetType("Newtonsoft.Json.Linq.JObject");
             JsonObject = Activator.CreateInstance(JsonType);
             JsonStaticMethods = JsonType.GetMethods(BindingFlags.Static | BindingFlags.Public);
-            jParseMethod = JsonStaticMethods[4];
+            //jParseMethod = JsonStaticMethods[4];
+            jParseMethod = JsonType.GetMethod("Parse", new Type[] { typeof(String) });
 
             jsonConvertType = JsonAssembly.GetType("Newtonsoft.Json.JsonConvert");
             methods = jsonConvertType.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            deserialize = methods[37];
+            //deserialize = methods[37];
+            //serialize = methods[27]; //SerializeObject
 
-            serialize = methods[27];
+            deserialize = jsonConvertType.GetMethod("DeserializeObject", new Type[] { typeof(string), typeof(Type)});
+            serialize = jsonConvertType.GetMethod("SerializeObject", new Type[] { typeof(object)});
         }
     }
 
