@@ -51,7 +51,7 @@ namespace EdgeModule
                 }
                 else
                 {
-                    fp = new WMMLCLassLib.FailurePrediction(modelPath);
+                    fp = new WMMLCLassLib.FailurePrediction(System.IO.Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + modelPath);
                 }
             }
             catch (Exception exp)
@@ -111,6 +111,7 @@ namespace EdgeModule
         {
             Dictionary<string, string> thisIsMyProperty = new Dictionary<string, string>();
             thisIsMyProperty.Add("name", "predictmodule");
+            thisIsMyProperty.Add("payloadType", "predictmodule");
 
             FailureNotice fn = new FailureNotice() { deviceID = 1, failScore = pv.Score, probability = pv.Probability };
             string message = rUtils.serializeFailure(fn); // JsonConvert.SerializeObject(fn);

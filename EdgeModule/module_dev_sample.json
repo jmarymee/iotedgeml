@@ -10,7 +10,7 @@
         }
       },
       "args": {
-        "pathToTelemetry": "C:\\Users\\jmarymee.REDMOND\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\EdgeModule\\test.csv",
+        "pathToTelemetry": "test.csv",
         "ignoreHeader": "true",
         "spewtiming": "2000",
         "log": "true"
@@ -26,7 +26,7 @@
         }
       },
       "args": {
-        "pathToModel": "C:\\Users\\jmarymee.REDMOND\\Documents\\Visual Studio 2017\\Projects\\iotedgeml\\EdgeModule\\3.model.zip",
+        "pathToModel": "3.model.zip",
         "failureThreshold": "-30.00",
         "log": "true"
       }

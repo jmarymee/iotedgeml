@@ -90,6 +90,7 @@ namespace EdgeModule
 
             //string appPath = AppDomain.CurrentDomain.BaseDirectory + System.IO.Path.PathSeparator + "iotedgml";
             var projectPath = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + System.IO.Path.DirectorySeparatorChar + "iotedgml";
+            string workDir = System.IO.Directory.GetCurrentDirectory();
             //var projectPath2 = System.IO.Path.GetDirectoryName(
             //    System.IO.Path.GetDirectoryName(
             //        System.IO.Path.GetDirectoryName(
@@ -137,7 +138,9 @@ namespace EdgeModule
 
                 if (m_spewTestData == null || m_spewTestData.Count < 1)
                 {
-                    m_spewTestData = GetTestScoreData(m_pathToTelemetry, isIgnoreHeaders);
+                    string telePath = System.IO.Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + m_pathToTelemetry;
+                    m_spewTestData = GetTestScoreData(telePath, isIgnoreHeaders);
+                    //m_spewTestData = GetTestScoreData(m_pathToTelemetry, isIgnoreHeaders);
                     if (isLog) Console.WriteLine(String.Format("Skipping line {0}: Header line", lineNum));
                     lineNum++;
                 }
