@@ -21,8 +21,7 @@ namespace WMMLCLassLib
 
         private class FailurePredict
         {
-            [VectorType(1)]
-            public float[] Yield_Pass_Fail;
+            public float Yield_Pass_Fail;
 
             [VectorType(50)]
             public float[] Features;
@@ -42,8 +41,7 @@ namespace WMMLCLassLib
         public PredictionValues Predict(float[] scoreData)
         {
             FailurePredict fp = new FailurePredict();
-            fp.Yield_Pass_Fail = new float[1];
-            fp.Yield_Pass_Fail[0] = scoreData[0];
+            fp.Yield_Pass_Fail = scoreData[0];
             fp.Features = new float[50];
             ArrayCopy(scoreData, fp.Features, 50, 1);
             var prediction = spe.Predict(fp);
